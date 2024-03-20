@@ -251,3 +251,28 @@ function generateRepairId(): string {
       if (registrationForm) registrationForm.style.display = "none";
     });
 </script>
+
+<script>
+  function toggleReasonField() {
+    var fixStatus = document.getElementById("fixStatus");
+    var reasonField = document.getElementById("reasonField");
+    var selectedValue = fixStatus.value;
+
+    if (selectedValue !== "❌") {
+      reasonField.style.display = "none";
+      document.getElementById("årsag").value = ""; // Clear input value when hidden
+    } else {
+      reasonField.style.display = "block";
+    }
+  }
+
+  // Call toggleReasonField initially to set initial state
+  toggleReasonField();
+
+  // Attach onchange event listener to fixStatus
+  document
+    .getElementById("fixStatus")
+    .addEventListener("change", toggleReasonField);
+</script>
+
+ChatGPT
