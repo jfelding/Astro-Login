@@ -10,6 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/db": "^0.9.1",
     "@astrojs/node": "^8.2.4",
     "@astrojs/ts-plugin": "^1.6.0",
     "astro": "^4.5.6",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@types/cookie": "^0.6.0",
     "@types/jsonwebtoken": "^9.0.6",
+    "@types/uuid": "^9.0.8",
     "prettier-plugin-astro": "^0.13.0"
   }
 }

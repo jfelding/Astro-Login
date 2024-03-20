@@ -1,0 +1,30 @@
+---
+import { defineDb } from "astro:db";
+
+export default defineDb({
+    tables: {
+        guests: [
+            {
+                id: "1",
+                fornavn: "John",
+                mærke: "Apple",
+                model: "iPhone 12",
+                vægt: "200",
+                fixStatus: "✅",
+                fixerNavn: "Alex",
+                afdeling: "Electronics",
+                årsag: "",
+            },
+            // Add more guest entries if needed
+        ],
+        fixers: [
+            {
+                id: "1",
+                navn: "Alex",
+                afdeling: "Electronics",
+            },
+            // Add more fixer entries if needed
+        ],
+    },
+});
+---
