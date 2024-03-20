@@ -15,6 +15,76 @@ function generateRepairId(): string {
 }
 ---
 
+<script>
+  // Define handleInput function here
+  const brands: string[] = [
+    "Apple",
+    "Bosch",
+    "Miele",
+    "Google",
+    "Samsung",
+    "Nike",
+    "Adidas",
+    "Sony",
+    "Coca-Cola",
+    "Toyota",
+    "Honda",
+    "McDonald's",
+    "Starbucks",
+    "Amazon",
+    "Microsoft",
+    "Google",
+    "Facebook",
+    "Instagram",
+    "WhatsApp",
+    "Disney",
+    "Pepsi",
+    "Louis Vuitton",
+    "Gucci",
+  ];
+
+  function handleInput(event) {
+    const input = event.target;
+    const inputValue = input.value.toLowerCase();
+    const autocompleteContainer = document.getElementById(
+      "autocomplete-container",
+    );
+
+    // Clear previous autocomplete suggestions
+    if (autocompleteContainer) autocompleteContainer.innerHTML = "";
+
+    if (!inputValue) return;
+
+    // Filter brands based on input value
+    const filteredBrands = brands.filter((brand) =>
+      brand.toLowerCase().startsWith(inputValue),
+    );
+
+    // Display autocomplete suggestions
+    if (filteredBrands.length > 0) {
+      filteredBrands.forEach((brand) => {
+        const suggestion = document.createElement("div");
+        suggestion.textContent = brand;
+        suggestion.addEventListener("click", () => {
+          input.value = brand;
+          if (autocompleteContainer) autocompleteContainer.innerHTML = ""; // Clear autocomplete container after selection
+        });
+        if (autocompleteContainer)
+          autocompleteContainer.appendChild(suggestion);
+      });
+      autocompleteContainer.style.display = "block"; // Show autocomplete container
+    } else {
+      autocompleteContainer.style.display = "none"; // Hide autocomplete container if no suggestions
+    }
+  }
+
+  // Attach input event listener to the "Mærke" input field
+  const brandInput = document.getElementById("mærke");
+  if (brandInput) {
+    brandInput.addEventListener("input", handleInput);
+  }
+</script>
+
 <Layout>
   <div class="index">
     <center>
@@ -49,8 +119,20 @@ function generateRepairId(): string {
             </select>
           </div>
           <div class="form-column">
+            <label for="beskrivelse">Beskrivelse</label>
+            <input />
+          </div>
+          <div class="form-column">
             <label for="mærke">Mærke</label>
-            <input type="text" id="mærke" name="mærke" required />
+            <input
+              type="text"
+              id="mærke"
+              name="mærke"
+              required
+              autocomplete="off"
+            />
+            <div id="autocomplete-container" class="autocomplete-container">
+            </div>
           </div>
           <div class="form-column">
             <label for="model">Model</label>
@@ -69,7 +151,13 @@ function generateRepairId(): string {
         <div class="form-columns">
           <div class="form-column">
             <label for="afdeling">Afdeling</label>
-            <input type="text" id="afdeling" name="afdeling" required />
+            <select id="afdeling" name="afdeling" required>
+              <option value="afdeling1">Elektronik</option>
+              <option value="afdeling2">Tekstil</option>
+              <option value="afdeling3">Andet</option>
+
+              <!-- Add more options if needed -->
+            </select>
           </div>
           <div class="form-column">
             <label for="fixerNavn">Navn</label>
@@ -115,32 +203,51 @@ function generateRepairId(): string {
           </div>
         </div>
       </div>
-    </form>
 
-    <!-- Register Button -->
-    <button type="submit">Registrér Genstand</button>
+      <!-- Register Button -->
+      <button type="submit">Registrér Genstand</button>
+    </form>
+  </div>
+
+  <!--Success -->
+  <div id="registration-page" class="registration-page" style="display: none;">
+    <center>
+      <h1>Registered: <span id="registered-model"></span></h1>
+      <div class="tick-mark">✓</div>
+      <a href="#" onclick="location.reload()"
+        >Keep going, register another one!</a
+      >
+    </center>
   </div>
 </Layout>
 
 <script>
-  function toggleReasonField() {
-    var fixStatus = document.getElementById("fixStatus");
-    var reasonField = document.getElementById("reasonField");
-    var selectedValue = fixStatus.value;
-
-    if (selectedValue !== "❌") {
-      reasonField.style.display = "none";
-      document.getElementById("årsag").value = ""; // Clear input value when hidden
-    } else {
-      reasonField.style.display = "block";
-    }
-  }
-
-  // Call toggleReasonField initially to set initial state
-  toggleReasonField();
-
-  // Attach onchange event listener to fixStatus
+  // Modify the form submission to display the registration page
   document
-    .getElementById("fixStatus")
-    .addEventListener("change", toggleReasonField);
+    .querySelector("form")
+    ?.addEventListener("submit", function (event: Event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Get the model input value
+      const modelInput: HTMLInputElement | null = document.getElementById(
+        "model",
+      ) as HTMLInputElement | null;
+      if (!modelInput) return; // Return early if the element is not found
+      const modelValue: string = modelInput.value;
+
+      // Display the registration page
+      const registrationPage: HTMLElement | null =
+        document.getElementById("registration-page");
+      if (registrationPage) registrationPage.style.display = "block";
+
+      // Set the registered model text
+      const registeredModel: HTMLElement | null =
+        document.getElementById("registered-model");
+      if (registeredModel) registeredModel.textContent = modelValue;
+
+      // Hide the registration form
+      const registrationForm: HTMLElement | null =
+        document.querySelector(".index");
+      if (registrationForm) registrationForm.style.display = "none";
+    });
 </script>

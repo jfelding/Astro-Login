@@ -1,3 +1,4 @@
+/* Reset and common styles */
 * {
   margin: 0;
   padding: 0;
@@ -9,10 +10,9 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #494949;
-  margin: 0;
-  padding: 0;
 }
 
+/* Shared styles for login and index */
 .login,
 .index {
   margin: 100px auto;
@@ -21,8 +21,7 @@ body {
   padding: 20px;
 }
 
-.login button,
-.index button {
+button {
   display: flex;
   outline: 0;
   padding: 8px 16px;
@@ -38,27 +37,22 @@ body {
   margin-bottom: 5%;
 }
 
-.login button:hover,
-.index button:hover {
+button:hover {
   background-color: #45a049;
 }
 
-.login button:disabled,
-.index button:disabled {
+button:disabled {
   background-color: #2e2e2e;
   color: #666;
 }
 
-.login h1,
-.index h1 {
+h1 {
   text-align: center;
   margin-bottom: 2.5%;
 }
 
-.login input,
-.index input,
-.login select,
-.index select,
+input,
+select,
 .form-row {
   background-color: white;
   color: black;
@@ -67,37 +61,29 @@ body {
   border-radius: 20px;
   padding: 10px 15px;
   border: 2px solid #2f2f30;
-  /* Decrease minimum width for input elements */
   min-width: 30px;
-  /* Remove fixed minimum width */
   width: auto;
-  /* Adjust width automatically based on content */
   margin-top: 2.5%;
   margin-bottom: 5%;
   font-size: 16px;
 }
 
-.login input:focus,
-.index input:focus,
-.login select:focus,
-.index select:focus,
+input:focus,
+select:focus,
 .form-row input:focus {
   border: 2px solid #3a3d41;
 }
 
-.login label,
-.index label {
+label {
   font-size: 18px;
   display: block;
   margin-bottom: 0;
 }
 
+/* Specific styles for forms */
 .form-column label {
-  display: block;
   text-align: center;
-  /* Center the label text */
   margin-bottom: 5px;
-  /* Adjust spacing between label and input field */
 }
 
 .form-row {
@@ -115,20 +101,109 @@ body {
 .form-columns {
   display: flex;
   flex-wrap: wrap;
-  /* Allow flex items to wrap to the next line */
   margin-bottom: -10px;
-  /* Adjust for negative margin added by form-column */
 }
 
 .form-column {
   flex: 0 0 auto;
-  /* Prevent columns from stretching to fill the remaining space */
   margin-right: 10px;
-  /* Adjust spacing between columns */
   margin-bottom: 10px;
-  /* Adjust spacing between rows */
 }
 
 .form-column:last-child {
   margin-right: 0;
+}
+
+/* Styles for autocomplete container */
+.autocomplete-container {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.autocomplete-container div {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.autocomplete-container div:hover {
+  background-color: #f0f0f0;
+}
+
+/* Styles specific to login */
+.login {
+  width: 300px;
+  background-color: #333;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.login h1 {
+  color: #fff;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.login input[type="text"],
+.login input[type="password"] {
+  width: calc(100% - 30px);
+  margin-bottom: 10px;
+}
+
+.login button {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.login button:hover {
+  background-color: #4CAF50;
+}
+
+.login button:disabled {
+  background-color: #2e2e2e;
+}
+
+.login label {
+  color: #fff;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.login form {
+  padding: 20px;
+}
+
+/* Styles for registration page */
+.registration-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+.registration-page h1 {
+  color: #008000;
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.registration-page .tick-mark {
+  font-size: 48px;
+  color: #008000;
+}
+
+.registration-page a {
+  color: #007bff;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+.registration-page a:hover {
+  text-decoration: underline;
 }
