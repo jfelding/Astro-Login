@@ -2,26 +2,145 @@
 import Layout from "@layouts/Layout.astro";
 import Button from "@components/LogoutButton.astro";
 import hasProfile from "@utils/profile";
+import { v4 as uuidv4 } from "uuid";
 
 const cookie: string = `${Astro.cookies.get(import.meta.env.COOKIE_NAME || "_Security_Login_")?.value}`;
 const username = hasProfile(cookie).username as string;
+
+// Generate Repair ID on page load
+const repairId: string = generateRepairId();
+
+function generateRepairId(): string {
+  return uuidv4();
+}
 ---
 
 <Layout>
   <div class="index">
     <center>
-      <h1>Welcome, {username}</h1>
-      <br />
-      <Button />
+      <h1>Velkommen, {username}</h1>
     </center>
-    <div class="quote">
-      <center>
-        <span
-          >by <a href="https://zastinian.com">Zastinian</a>, <a href="https://github.com/Zastinian/Astro-Login">Github Code</a>, <a
-            href="https://twitter.com/Zastinian">Twitter</a
-          >.</span
-        >
-      </center>
-    </div>
+
+    <br />
+    <form action="/api/register" method="post" class="form-grid">
+      <!-- Gæst Row -->
+      <div class="form-row">
+        <h2>Gæst</h2>
+        <div class="form-columns">
+          <div class="form-column">
+            <label for="fornavn">Fornavn</label>
+            <input type="text" id="fornavn" name="fornavn" required />
+          </div>
+        </div>
+      </div>
+
+      <!-- Genstand Row -->
+      <div class="form-row">
+        <h2>Genstand</h2>
+        <div class="form-columns">
+          <div class="form-column">
+            <label for="kategori">Kategori</label>
+            <select id="kategori" name="kategori" required>
+              <option value="kategori1">Elektronik</option>
+              <option value="kategori2">Tekstil</option>
+              <option value="kategori3">Andet</option>
+
+              <!-- Add more options if needed -->
+            </select>
+          </div>
+          <div class="form-column">
+            <label for="mærke">Mærke</label>
+            <input type="text" id="mærke" name="mærke" required />
+          </div>
+          <div class="form-column">
+            <label for="model">Model</label>
+            <input type="text" id="model" name="model" required />
+          </div>
+          <div class="form-column">
+            <label for="vægt">Vægt [g]</label>
+            <input type="text" id="vægt" name="vægt" required />
+          </div>
+        </div>
+      </div>
+
+      <!-- Fixer Row -->
+      <div class="form-row">
+        <h2>Fixer</h2>
+        <div class="form-columns">
+          <div class="form-column">
+            <label for="afdeling">Afdeling</label>
+            <input type="text" id="afdeling" name="afdeling" required />
+          </div>
+          <div class="form-column">
+            <label for="fixerNavn">Navn</label>
+            <input type="text" id="fixerNavn" name="fixerNavn" required />
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Row -->
+      <div class="form-row">
+        <h2>Status</h2>
+        <div class="form-columns">
+          <div class="form-column">
+            <label for="repairId">Repair ID</label>
+            <input
+              type="text"
+              id="repairId"
+              name="repairId"
+              <input
+              type="text"
+              id="årsag"
+              name="årsag"
+              value={repairId}
+              readonly
+            />
+          </div>
+
+          <div class="form-column">
+            <label for="fixStatus">Fix-status</label>
+            <select
+              id="fixStatus"
+              name="fixStatus"
+              required
+              onchange="toggleReasonField(this)"
+            >
+              <option value="✅">✅</option>
+              <option value="❌">❌</option>
+            </select>
+          </div>
+          <div class="form-column" id="reasonField" style="display: none;">
+            <label for="årsag">Årsag til manglende fix</label>
+            <input type="text" id="årsag" name="årsag" />
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- Register Button -->
+    <button type="submit">Registrér Genstand</button>
   </div>
 </Layout>
+
+<script>
+  function toggleReasonField() {
+    var fixStatus = document.getElementById("fixStatus");
+    var reasonField = document.getElementById("reasonField");
+    var selectedValue = fixStatus.value;
+
+    if (selectedValue !== "❌") {
+      reasonField.style.display = "none";
+      document.getElementById("årsag").value = ""; // Clear input value when hidden
+    } else {
+      reasonField.style.display = "block";
+    }
+  }
+
+  // Call toggleReasonField initially to set initial state
+  toggleReasonField();
+
+  // Attach onchange event listener to fixStatus
+  document
+    .getElementById("fixStatus")
+    .addEventListener("change", toggleReasonField);
+</script>
